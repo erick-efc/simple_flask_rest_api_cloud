@@ -1,0 +1,16 @@
+{
+    "tables": [
+      {
+        "name": "departments",
+        "dependencies": []
+      },
+      {
+        "name": "jobs",
+        "dependencies": ["departments"]
+      },
+      {
+        "name": "hired_employees",
+        "dependencies": ["departments", "jobs"]
+      }
+    ]
+  }
