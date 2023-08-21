@@ -15,7 +15,6 @@ app.config['MYSQL_CURSORCLASS'] = 'pymysql.cursors.DictCursor'
 
 # SPECIFY HERE THE HISTORICAL DATA
 
-
 # ROUTES
 
 # Test route to retrieve data from the database
@@ -69,11 +68,15 @@ def historical_data_up():
         # Insert data into the corresponding table
         with connection.cursor() as cursor:
             for row in data:
-                values_placeholder = ', '.join(['%s'] * len(row))
-                query = f"INSERT INTO {table_name} ({keys}) VALUES ({values_placeholder})"
-                cursor.execute(query, row)
+                id_to_insert = row[0]
+                check_query = f"SELECT COUNT(*) FROM {table_name} WHERE id = %s"
+                cursor.execute(check_query, (id_to_insert,))
+                exists = cursor.fetchone()[0]
+                if not exists:
+                    values_placeholder = ', '.join(['%s'] * len(row))
+                    query = f"INSERT INTO {table_name} ({keys}) VALUES ({values_placeholder})"
+                    cursor.execute(query, row)
     connection.commit()  # Commit the changes to the database
     connection.close()  # Close the connection
 
     return "Data uploaded successfully."
-
