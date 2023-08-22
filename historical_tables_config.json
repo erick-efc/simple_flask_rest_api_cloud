@@ -6,7 +6,7 @@
       },
       {
         "name": "jobs",
-        "dependencies": ["departments"]
+        "dependencies": []
       },
       {
         "name": "hired_employees",
