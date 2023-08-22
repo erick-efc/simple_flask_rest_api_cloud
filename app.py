@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 import os
 import csv
 import pymysql
-import json
 
 app = Flask(__name__)
 
@@ -14,7 +13,7 @@ app.config['MYSQL_DB'] = 'globant_test'
 app.config['MYSQL_CURSORCLASS'] = 'pymysql.cursors.DictCursor'
 
 # CSV TO TABLE FUNCTION
-def insert_data_into_table(connection, table_name, keys, csv_file_path):
+def insert_data_into_table(connection, table_name, headers, csv_file_path):
     data = []
     with open(csv_file_path, 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
@@ -29,7 +28,7 @@ def insert_data_into_table(connection, table_name, keys, csv_file_path):
             exists = cursor.fetchone()[0]
             if not exists:
                 values_placeholder = ', '.join(['%s'] * len(row))
-                query = f"INSERT INTO {table_name} ({keys}) VALUES ({values_placeholder})"
+                query = f"INSERT INTO {table_name} ({headers}) VALUES ({values_placeholder})"
                 cursor.execute(query, row)
     return data
 
