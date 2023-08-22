@@ -63,9 +63,30 @@ def historical_data_up():
                 keys = ', '.join([column[0] for column in columns]) 
             insert_data_into_table(connection, table_name, keys, csv_file_path)  
         connection.commit() 
-        return jsonify({'message': 'Data uploaded successfully'})
+        return jsonify({'message': 'Data uploaded successfully'}), 200
     except Exception as e:
         connection.rollback()
-        return jsonify({'error': str(e)})
+        return jsonify({'error': str(e)}), 400
     finally:
         connection.close()
+
+################################################
+# UPLOAD FILES ROUTE
+################################################
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    try:
+        UPLOAD_FOLDER = './uploads'  
+        app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+        app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file part'}), 400
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({'error': 'No selected file'}), 400
+        if file:
+            filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(filename)
+        return jsonify({'message': 'File uploaded successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
