@@ -49,7 +49,7 @@ You need to have the following software installed:
   pip install -r requirements.txt
 ```
 
-4. Set up the DB (we will use MySQL, as exaplained) 
+4. Set up the DB (we will use MySQL, as explained) 
 - open a new terminal and start an instance of MySQL with admin access:
 ``` bash
 mysql -u root -p
@@ -119,11 +119,11 @@ curl -X POST \
  ``` bash
   curl -X POST -F "file=@hired_employees.csv" http://localhost:5000/api/upload
 ```
-- `POST /api/update_db_csv` It takes a local file to update directly the DB, with non persistency for the file, needs to specify a file eg.:
+- `POST /api/update_db_csv` It takes a local file to update directly the DB, with non-persistency for the file, needs to specify a file eg.:
 ``` bash
 curl -X POST -F "file=@hired_employees.csv" http://localhost:5000/api/update_db_csv
 ```
-- `GET /api/ls_uploads` It retrieves a list of files in the uplaods folder eg.:
+- `GET /api/ls_uploads` It retrieves a list of files in the uploads folder eg.:
 ``` bash
 curl -X GET http://localhost:5000/api/ls_uploads
 ```
@@ -132,14 +132,14 @@ curl -X GET http://localhost:5000/api/ls_uploads
 curl -X POST -F "file=hired_employees.csv" http://localhost:5000/api/del_in_uploads
 ```
 ### Endpoints SQL
-- `GET /api/sql/hired_over_mean_2021` Query deaprtments with hired employees above mean of the company in json format. So retrieve it in tabulate format you can run `tabulated_hired_over_mean_2021.py`
+- `GET /api/sql/hired_over_mean_2021` Query departments with hired employees above mean of the company in json format. To retrieve it in tabulate format you can run `tabulated_hired_over_mean_2021.py`
 ``` bash
 python ./utils/tabulated_hired_over_mean_2021.py
 ```
-- `GET /api/sql/tabulated_employee_count_by_quarter` Query deaprtments with hired employees above mean of the company in json format. So retrieve it in tabulate format you can run `tabulated_employee_count_by_quarter.py`
+- `GET /api/sql/tabulated_employee_count_by_quarter` Query departments with hired employees above mean of the company in json format. To retrieve it in tabulate format you can run `tabulated_employee_count_by_quarter.py`
 ``` bash
 python ./utils/tabulated_employee_count_by_quarter.py
 ```
 
 # Thanks for passing by!
-- Feel free to add my in [Linkedin](https://www.linkedin.com/in/-ec-)
+- Feel free to add me in [Linkedin](https://www.linkedin.com/in/-ec-)
