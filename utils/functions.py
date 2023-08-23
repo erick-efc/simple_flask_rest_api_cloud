@@ -27,8 +27,8 @@ def insert_data_into_table(connection, table_name, csv_file_path):
                 else:
                     sanitized_row.append(value)
             data.append(sanitized_row)
-    # if all(value.isalpha() for value in data[0]):
-    #     del data[0]
+    if all(isinstance(value, str) for value in data[0]):
+        del data[0]
     try:
         with connection.cursor() as cursor:
             cursor.execute(f"SHOW COLUMNS FROM {table_name}") # THIS RETRIEVES THE COLUMNS NAMES SINCE THE PROVIDED CSVs DOESN'T HAVE HEADERS

@@ -75,8 +75,13 @@ def batch_insert():
         connection.commit() 
     except json.JSONDecodeError:
         return jsonify({"message": "Invalid JSON data in rows"}), 400
+    except Exception as e:
+        connection.rollback()
+        return jsonify({"message": f"An error occurred: {str(e)}"}), 500
+    finally:
+        connection.close()
     return jsonify({"message": "Batch insert successful, csv generated"}), 201
-
+    
 ################################################
 # QUERY 1
 ################################################
