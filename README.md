@@ -13,7 +13,7 @@ This is a simple Flask-based REST API project that needs to:
 - [Usage](#usage)
   - [Running the API](#running-the-api)
   - [Endpoints](#endpoints)
-  - [Endpoints SQL](#SQL)
+  - [Endpoints SQL](#endpoints-sql)
 - [Thanks for passing by](#thanks-for-passing-by)
 
 
