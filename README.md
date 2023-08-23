@@ -14,9 +14,8 @@ This is a simple Flask-based REST API project that needs to:
   - [Running the API](#running-the-api)
   - [Endpoints](#endpoints)
   - [Endpoints SQL](#SQL)
+- [Thanks for passing by](#thanks-for-passing-by)
 
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Getting Started
 
@@ -91,7 +90,7 @@ php -S localhost:8080
   python run.py
   ```
 
-### Enpoints
+### Endpoints
 
 - `POST /api/upload_hist` Uploads CSV files to `historical_upload` directory, especifically the historic data for the DB, you can also access this CSVs in the `historical_data_bkup`, you need to specify a file with this request eg.:
 ``` bash
@@ -132,7 +131,7 @@ curl -X GET http://localhost:5000/api/ls_uploads
 ``` bash
 curl -X POST -F "file=hired_employees.csv" http://localhost:5000/api/del_in_uploads
 ```
-### SQL
+### Endpoints SQL
 - `GET /api/sql/hired_over_mean_2021` Query deaprtments with hired employees above mean of the company in json format. So retrieve it in tabulate format you can run `tabulated_hired_over_mean_2021.py`
 ``` bash
 python ./utils/tabulated_hired_over_mean_2021.py
