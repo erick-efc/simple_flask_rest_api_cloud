@@ -13,6 +13,8 @@ This is a simple Flask-based REST API project that needs to:
 - [Usage](#usage)
   - [Running the API](#running-the-api)
   - [Endpoints](#endpoints)
+  - [Endpoints SQL](#SQL)
+
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -127,5 +129,15 @@ curl -X GET http://localhost:5000/api/ls_uploads
 ``` bash
 curl -X POST -F "file=hired_employees.csv" http://localhost:5000/api/del_in_uploads
 ```
+### SQL
+- `GET /api/sql/hired_over_mean_2021` Query deaprtments with hired employees above mean of the company in json format. So retrieve it in tabulate format you can run `tabulated_hired_over_mean_2021.py`
+``` bash
+python ./utils/tabulated_hired_over_mean_2021.py
+```
+- `GET /api/sql/tabulated_employee_count_by_quarter` Query deaprtments with hired employees above mean of the company in json format. So retrieve it in tabulate format you can run `tabulated_employee_count_by_quarter.py`
+``` bash
+python ./utils/tabulated_employee_count_by_quarter.py
+```
+
 # Thanks for passing by!
 - Feel free to add my in [Linkedin](https://www.linkedin.com/in/-ec-)
