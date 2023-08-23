@@ -12,7 +12,8 @@ app.config['MYSQL_PASSWORD'] = 'globant123' # NEVER HARDCODE SENSITIVE INFORMATI
 app.config['MYSQL_DB'] = 'globant_test'
 app.config['MYSQL_CURSORCLASS'] = 'pymysql.cursors.DictCursor'
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  
-app.config['UPLOAD_FOLDER'] = './uploads' 
+app.config['UPLOAD_FOLDER'] = './uploads'
+app.config['UPLOAD_HIST'] = './historical_upload' 
 
 # BLUEPRINT REGISTER
 app.register_blueprint(extra_routes_bp)

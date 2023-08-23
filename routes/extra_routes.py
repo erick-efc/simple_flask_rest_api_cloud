@@ -13,13 +13,13 @@ HISTORICAL_DATA_FOLDER = './historical_data_bkup'
 def historical_data_up():
     try:
         connection = connect_now()
-        uptade_order = ["departments", "jobs", "hired_employees"] # HIRED_EMPLOYEES IS A CHILD TABLE IN THE SCHEMA
-        for table in uptade_order:
+        update_order = ["departments", "jobs", "hired_employees"] # HIRED_EMPLOYEES IS A CHILD TABLE IN THE SCHEMA
+        for table in update_order:
             table_name = table
             csv_file_path = os.path.join(HISTORICAL_DATA_FOLDER, f'{table_name}.csv')
             insert_data_into_table(connection, table_name, csv_file_path)  
         connection.commit() 
-        return jsonify({'message': 'Data uploaded successfully'}), 200
+        return jsonify({'message': 'Data retrieved successfully'}), 200
     except Exception as e:
         connection.rollback()
         return jsonify({'error': str(e)}), 400
@@ -27,7 +27,25 @@ def historical_data_up():
         connection.close()
 
 ################################################
-# UPDATE DB WITH A CSV
+# UPLOAD PERSISTENT FILES ROUTE
+################################################
+@extra_routes_bp.route('/api/upload', methods=['POST'])
+def upload_file():
+    try:
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file part'}), 400
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({'error': 'No selected file'}), 400
+        if file:
+            filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(filename)
+        return jsonify({'message': 'File uploaded successfully'}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+################################################
+# UPDATE DB WITH A NON PERSISTENT CSV
 ################################################
 @extra_routes_bp.route('/update_db_csv', methods=['POST'])
 def update_db_csv():
@@ -47,7 +65,7 @@ def update_db_csv():
         insert_data_into_table(connection, table_name, csv_file_path)
         connection.commit()
         os.remove(csv_file_path)
-        return jsonify({'message': 'Data uploaded successfully'}), 200
+        return jsonify({'message': 'Data uploaded successfully'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 400
     finally:
