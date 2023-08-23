@@ -47,7 +47,7 @@ def upload_file():
 ################################################
 # UPDATE DB WITH A NON PERSISTENT CSV
 ################################################
-@extra_routes_bp.route('/update_db_csv', methods=['POST'])
+@extra_routes_bp.route('/api/update_db_csv', methods=['POST'])
 def update_db_csv():
     try:
         connection = connect_now()
@@ -70,3 +70,16 @@ def update_db_csv():
         return jsonify({'error': str(e)}), 400
     finally:
         connection.close()        
+
+################################################
+# CHECK FOR FILES IN UPLOAD FOLDER
+################################################
+@extra_routes_bp.route('/api/ls_uploads', methods=['GET'])
+def list_files():
+    file_list = []
+    try:
+        file_list = os.listdir(app.config['UPLOAD_FOLDER'])
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+    return jsonify({"files": file_list})
