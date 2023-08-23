@@ -35,8 +35,8 @@ You need to have the following software installed:
 
 1. Clone the repository
 ```bash
-   git clone https://github.com/erick-efc/globant_test_flask_rest_api
-   cd globant_test_flask_rest_api
+   git clone https://github.com/erick-efc/globant_test_flask_rest_api_local
+   cd globant_test_flask_rest_api_local
 ```
 2. Create and activate a virtual environment (optional but highly recommended):
 ```bash
