@@ -25,10 +25,10 @@ These instructions aim to assist anyone in running and testing the project local
 You need to have the following software installed:
 
 - Python (>=3.6)
-    will be provided a requirements.txt
+  - will be provided a requirements.txt
 - MySQL Server (also recommend SQLite and PostgreSQL)
-    Server must be running on localhost
-    DB structure will be provided considering a MySQL RDMS
+    - Server must be running on localhost
+    - DB structure will be provided considering a MySQL RDMS
 
 ### Installation
 
@@ -49,10 +49,30 @@ You need to have the following software installed:
 ```
 
 4. Set up the DB (we will use MySQL, as exaplained) 
-- Open a new terminal and start an instance of MySQL
+- Open a new terminal and start an instance of MySQL with admin access:
+``` bash
+mysql -u root -p
+```
 - Build the DB using the provided empty sql dump file `db_structure.sql`
-- create a new user to interact with you api (to interact with this you can you use: )
+``` sql
+source ./db_structure.sql;
+```
+- create a new user to interact with you api. To interact with this app without need to change config, you can you use:
+``` sql
+CREATE USER 'api_user'@'localhost' IDENTIFIED BY 'globant123';
+```
 - grant the access to the new user accordingly
+``` sql
+GRANT SELECT, INSERT, UPDATE, DELETE ON globant_test.* TO 'api_user'@'localhost';
+```
+- flush
+``` sql
+FLUSH PRIVILEGES;
+```
+- Optional you can run a phpMyAdmin instance to follow the api interacting with the DB, run in another terminal and access `http://localhost:8080/index.php` trough browser:
+``` bash
+php -S localhost:8080
+```
 
 ## Usage
 
@@ -95,7 +115,7 @@ curl -X POST \
  ``` bash
   curl -X POST -F "file=@hired_employees.csv" http://localhost:5000/api/upload
 ```
-- `POST /api/update_db_csv` It takes a local file to update directly the DB with non persistency, needs to specify a file eg.:
+- `POST /api/update_db_csv` It takes a local file to update directly the DB, with non persistency for the file, needs to specify a file eg.:
 ``` bash
 curl -X POST -F "file=@hired_employees.csv" http://localhost:5000/api/update_db_csv
 ```
@@ -103,4 +123,9 @@ curl -X POST -F "file=@hired_employees.csv" http://localhost:5000/api/update_db_
 ``` bash
 curl -X GET http://localhost:5000/api/ls_uploads
 ```
-
+- `POST /api/del_in_uploads` Deletes specific files in the uploads folder, requires a filename as file eg.:
+``` bash
+curl -X POST -F "file=hired_employees.csv" http://localhost:5000/api/del_in_uploads
+```
+# Thanks for passing by!
+- Feel free to add my in [Linkedin](https://www.linkedin.com/in/-ec-)

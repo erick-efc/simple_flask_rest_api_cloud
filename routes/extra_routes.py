@@ -83,3 +83,18 @@ def list_files():
         return jsonify({"error": str(e)}), 500
 
     return jsonify({"files": file_list})
+
+################################################
+# DELETE FILES FROM UPLOADS
+################################################
+@extra_routes_bp.route('/api/del_in_uploads', methods=['POST'])
+def del_in_uploads():
+    filename = request.form.get('file')
+    if not filename:
+        return jsonify({'error': 'Filename is required'})
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    try:
+        os.remove(file_path)
+        return jsonify({'message': f'File "{filename}" deleted successfully'})
+    except OSError as e:
+        return jsonify({'error': f'Error deleting file: {str(e)}'})
