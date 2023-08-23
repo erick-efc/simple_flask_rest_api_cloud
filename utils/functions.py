@@ -53,3 +53,20 @@ def sort(update_order, target_list):
     sorted_target_list = sorted(target_list, key=lambda x: position_map.get(x, float('inf')))
     return sorted_target_list
 
+# RUN QUERY
+def execute_query(query):
+    try:
+        connection = connect_now()
+        cursor = connection.cursor()
+        cursor.execute(query)
+        result = cursor.fetchall()
+        columns = [column[0] for column in cursor.description]
+        response = [dict(zip(columns, row)) for row in result]
+        return response
+    except mysql.connector.Error as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()

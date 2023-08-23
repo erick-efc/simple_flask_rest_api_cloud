@@ -3,7 +3,7 @@ import json
 import csv
 from datetime import datetime
 from flask import jsonify, Blueprint, request, current_app as app
-from utils.functions import connect_now, insert_data_into_table, sort
+from utils.functions import connect_now, insert_data_into_table, sort, execute_query
 
 globant_required_routes_bp = Blueprint('globant_required_routes_bp', __name__)
 
@@ -85,34 +85,73 @@ def batch_insert():
 ################################################
 # QUERY 1
 ################################################
-@globant_required_routes_bp.route('/employee-count-by-quarter', methods=['GET'])
+@globant_required_routes_bp.route('/api/sql/employee_count_by_quarter', methods=['GET'])
 def employee_count_by_quarter():
     query = """
-    SELECT
-        department_id,
-        job_id,
-        datetime,
-        COUNT(*) AS employee_count
-    FROM
-        hired_employees
+    SELECT 
+        COALESCE(dp.department, 'Unknown Department') AS department,
+        COALESCE(jb.job, 'Unknown Job') AS job,
+        SUM(CASE WHEN MONTH(h_e.datetime) IN (1, 2, 3) THEN 1 ELSE 0 END) AS q1,
+        SUM(CASE WHEN MONTH(h_e.datetime) IN (4, 5, 6) THEN 1 ELSE 0 END) AS q2,
+        SUM(CASE WHEN MONTH(h_e.datetime) IN (7, 8, 9) THEN 1 ELSE 0 END) AS q3,
+        SUM(CASE WHEN MONTH(h_e.datetime) IN (10, 11, 12) THEN 1 ELSE 0 END) AS q4
+    FROM 
+        hired_employees h_e
+    LEFT JOIN
+        departments dp ON dp.id = h_e.department_id
+    LEFT JOIN
+        jobs jb ON jb.id = h_e.job_id
     WHERE
-        YEAR(datetime) = 2021
-    GROUP BY
-        department_id, job_id, datetime
-    ORDER BY
-        department_id, job_id
+        dp.department IS NOT NULL OR jb.job IS NOT NULL
+    GROUP BY 
+        dp.department,
+        jb.job
+    ORDER BY 
+        (dp.department IS NULL),
+        dp.department,
+        (jb.job IS NULL),
+        jb.job;
     """
-    try:
-        connection = connect_now()
-        cursor = connection.cursor()
-        cursor.execute(query)
-        result = cursor.fetchall()
-        columns = [column[0] for column in cursor.description]
+    response = execute_query(query)
+    return jsonify(response)
 
-        response = []
-        for row in result:
-            response.append(dict(zip(columns, row)))
-
-        return jsonify(response)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+################################################
+# QUERY 2
+################################################
+@globant_required_routes_bp.route('/api/sql/hired_over_mean_2021', methods=['GET'])
+def hired_over_mean_2021():
+    query = """
+    SELECT 
+        dp.id,
+        dp.department,
+        COUNT(*) AS hired
+    FROM 
+        hired_employees h_e
+    JOIN
+        departments dp ON dp.id = h_e.department_id
+    WHERE 
+        YEAR(h_e.datetime) = 2021
+    GROUP BY 
+        dp.id, 
+        dp.department
+    HAVING 
+        hired > (
+            SELECT 
+                AVG(employee_count)
+            FROM (
+                SELECT 
+                    department_id,
+                    COUNT(*) AS employee_count
+                FROM 
+                    hired_employees
+                WHERE 
+                    YEAR(datetime) = 2021
+                GROUP BY 
+                    department_id
+            ) AS department_counts
+    )
+    ORDER BY 
+        hired DESC;
+    """
+    response = execute_query(query)
+    return jsonify(response)
