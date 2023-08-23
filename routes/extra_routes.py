@@ -9,7 +9,7 @@ HISTORICAL_DATA_FOLDER = './historical_data_bkup'
 ################################################
 # ROUTE TO RETRIEVE TABLES WITH HISTORICAL DATA
 ################################################
-@extra_routes_bp.route('/api/historical_data_bkup_feed')
+@extra_routes_bp.route('/api/historical_data_bkup_feed', methods=['POST'])
 def historical_data_up():
     try:
         connection = connect_now()

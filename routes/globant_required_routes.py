@@ -28,7 +28,7 @@ def upload_file():
 ################################################
 # UPDATE HISTORICAL DATA FROM UPDATE_HIST FOLDER
 ################################################
-@globant_required_routes_bp.route('/api/historical_to_db')
+@globant_required_routes_bp.route('/api/historical_to_db', methods=['POST'])
 def historical_data_up():
     try:
         connection = connect_now()
