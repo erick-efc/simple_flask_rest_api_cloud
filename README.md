@@ -51,14 +51,17 @@ You need to have the following software installed:
 ```
 
 4. Set up the DB (we will use MySQL, as exaplained) 
-- Open a new terminal and start an instance of MySQL with admin access:
+- open a new terminal and start an instance of MySQL with admin access:
 ``` bash
 mysql -u root -p
 ```
-- Build the DB using the provided empty sql dump file `db_structure.sql`
+- build the DB using the provided empty sql dump file `db_structure.sql`
 ``` sql
-source ./db_structure.sql;
+source ./misc/db_structure.sql;
 ```
+  -You should have something like this:
+![Relational DB Diagram](./misc/globant_test_db_relational_diagram.png)
+
 - create a new user to interact with you api. To interact with this app without need to change config, you can you use:
 ``` sql
 CREATE USER 'api_user'@'localhost' IDENTIFIED BY 'globant123';
@@ -71,7 +74,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON globant_test.* TO 'api_user'@'localhost'
 ``` sql
 FLUSH PRIVILEGES;
 ```
-- Optional you can run a phpMyAdmin instance to follow the api interacting with the DB, run in another terminal and access `http://localhost:8080/index.php` trough browser:
+- optional you can run a phpMyAdmin instance to follow the api interacting with the DB, run in another terminal and access `http://localhost:8080/index.php` trough browser:
 ``` bash
 php -S localhost:8080
 ```
