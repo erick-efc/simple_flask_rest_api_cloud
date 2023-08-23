@@ -53,7 +53,7 @@ def historical_data_up():
         connection.close()
 
 ################################################
-# UPDATE HISTORICAL DATA FROM UPDATE_HIST FOLDER
+# UPDATE DATA FROM BATCH
 ################################################
 @globant_required_routes_bp.route('/api/batch_insert', methods=['POST'])
 def batch_insert():
@@ -76,3 +76,38 @@ def batch_insert():
     except json.JSONDecodeError:
         return jsonify({"message": "Invalid JSON data in rows"}), 400
     return jsonify({"message": "Batch insert successful, csv generated"}), 201
+
+################################################
+# QUERY 1
+################################################
+@globant_required_routes_bp.route('/employee-count-by-quarter', methods=['GET'])
+def employee_count_by_quarter():
+    query = """
+    SELECT
+        department_id,
+        job_id,
+        datetime,
+        COUNT(*) AS employee_count
+    FROM
+        hired_employees
+    WHERE
+        YEAR(datetime) = 2021
+    GROUP BY
+        department_id, job_id, datetime
+    ORDER BY
+        department_id, job_id
+    """
+    try:
+        connection = connect_now()
+        cursor = connection.cursor()
+        cursor.execute(query)
+        result = cursor.fetchall()
+        columns = [column[0] for column in cursor.description]
+
+        response = []
+        for row in result:
+            response.append(dict(zip(columns, row)))
+
+        return jsonify(response)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
