@@ -1,4 +1,4 @@
-# Flask REST API in AWS (future enhancement to use buckets)
+# Flask REST API in AWS (future enhancement, flaskenv, security and buckets)
 
 This is a simple Flask-based REST API project that needs to:
 1.	Receive historical data from CSV files
