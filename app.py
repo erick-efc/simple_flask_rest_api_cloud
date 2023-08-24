@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # APP CONFIG
 app.config['MYSQL_HOST'] = 'globants-test-db.c474uul57lcw.us-east-1.rds.amazonaws.com'
-app.config['MYSQL_PORT'] = '3306'
+app.config['MYSQL_PORT'] = 3306
 app.config['MYSQL_USER'] = 'api_user'
 app.config['MYSQL_PASSWORD'] = 'globant123' # NEVER HARDCODE SENSITIVE INFORMATION, THIS IS JUST FOR DEMONSTRATION PURPOSE
 app.config['MYSQL_DB'] = 'globant_test'

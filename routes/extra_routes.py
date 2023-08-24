@@ -9,7 +9,7 @@ HISTORICAL_DATA_FOLDER = './historical_data_bkup'
 ################################################
 # ROUTE TO RETRIEVE TABLES WITH HISTORICAL DATA
 ################################################
-@extra_routes_bp.route('/api/historical_data_bkup_feed', methods=['POST'])
+@extra_routes_bp.route('/api/historical_data_bkup_feed', methods=['GET', 'POST'])
 def historical_data_up():
     try:
         connection = connect_now()
@@ -29,7 +29,7 @@ def historical_data_up():
 ################################################
 # UPLOAD PERSISTENT FILES ROUTE
 ################################################
-@extra_routes_bp.route('/api/upload', methods=['POST'])
+@extra_routes_bp.route('/api/upload', methods=['GET' , 'POST'])
 def upload_file():
     try:
         if 'file' not in request.files:
@@ -47,7 +47,7 @@ def upload_file():
 ################################################
 # UPDATE DB WITH A NON PERSISTENT CSV
 ################################################
-@extra_routes_bp.route('/api/update_db_csv', methods=['POST'])
+@extra_routes_bp.route('/api/update_db_csv', methods=['GET', 'POST'])
 def update_db_csv():
     try:
         connection = connect_now()
@@ -87,7 +87,7 @@ def list_files():
 ################################################
 # DELETE FILES FROM UPLOADS
 ################################################
-@extra_routes_bp.route('/api/del_in_uploads', methods=['POST'])
+@extra_routes_bp.route('/api/del_in_uploads', methods=['GET', 'POST'])
 def del_in_uploads():
     filename = request.form.get('file')
     if not filename:

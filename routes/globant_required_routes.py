@@ -10,7 +10,7 @@ globant_required_routes_bp = Blueprint('globant_required_routes_bp', __name__)
 ################################################
 # UPLOAD PERSISTENT FILES ROUTE
 ################################################
-@globant_required_routes_bp.route('/api/upload_hist', methods=['POST'])
+@globant_required_routes_bp.route('/api/upload_hist', methods=['GET', 'POST'])
 def upload_file():
     try:
         if 'file' not in request.files:
@@ -28,7 +28,7 @@ def upload_file():
 ################################################
 # UPDATE HISTORICAL DATA FROM UPDATE_HIST FOLDER
 ################################################
-@globant_required_routes_bp.route('/api/historical_to_db', methods=['POST'])
+@globant_required_routes_bp.route('/api/historical_to_db', methods=['GET', 'POST'])
 def historical_data_up():
     try:
         connection = connect_now()
@@ -55,7 +55,7 @@ def historical_data_up():
 ################################################
 # UPDATE DATA FROM BATCH
 ################################################
-@globant_required_routes_bp.route('/api/batch_insert', methods=['POST'])
+@globant_required_routes_bp.route('/api/batch_insert', methods=['GET', 'POST'])
 def batch_insert():
     data = request.form.to_dict()
     table_name = data.get('table_name')
