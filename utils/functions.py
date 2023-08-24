@@ -6,7 +6,7 @@ from flask import jsonify, current_app as app
 def connect_now():
     connection = pymysql.connect(
         host=app.config['MYSQL_HOST'],
-        port=app.config['MYSQL_PORT']
+        port=app.config['MYSQL_PORT'],
         user=app.config['MYSQL_USER'],
         password=app.config['MYSQL_PASSWORD'],
         db=app.config['MYSQL_DB'],
