@@ -63,11 +63,11 @@ source ./misc/db_structure.sql;
 
 - create a new user to interact with you api. To interact with this app without need to change config, you can you use:
 ``` sql
-CREATE USER 'api_user'@'localhost' IDENTIFIED BY 'globant123';
+CREATE USER 'api_user'@'%' IDENTIFIED BY 'globant123';
 ```
 - grant the access to the new user accordingly
 ``` sql
-GRANT SELECT, INSERT, UPDATE, DELETE ON globant_test.* TO 'api_user'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON globant_test.* TO 'api_user'@'%';
 ```
 - flush
 ``` sql
