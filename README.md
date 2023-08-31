@@ -46,7 +46,7 @@ sudo apt-get install libapache2-mod-wsgi-py3
 
 2. Clone the repository to your EC2 instance and give it a simple name, move it to path for the apache web server, the default is `/var/www/html/`
 ```bash
-   sudo git clone https://github.com/erick-efc/globant_test_flask_rest_api_cloud flask-api
+   sudo git clone https://github.com/erick-efc/simple_flask_rest_api_cloud flask-api
    sudo mv ./flask-api /var/www/html/
 ```
 3. Install Python 3 (if not installed yet), PIP and all requirements from requirements.txt:
@@ -87,16 +87,13 @@ sudo mysql_secure_installation
 mysql -h your_endpoint -P 3306 -u root -p
 source /var/www/heml/flask-app/misc/db_structure.sql;
 ```
-  -You should have something like this:
-![Relational DB Diagram](./misc/globant_test_db_relational_diagram.png)
-
 - still inside MariaDB CLI, create a new user to interact with you api. To interact with this app without need to change config, you can you use:
 ``` sql
-CREATE USER 'api_user'@'%' IDENTIFIED BY 'globant123';
+CREATE USER 'api_user'@'%' IDENTIFIED BY 'your_password';
 ```
 - grant the access to the new user accordingly
 ``` sql
-GRANT SELECT, INSERT, UPDATE, DELETE ON globant_test.* TO 'api_user'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON api_db.* TO 'api_user'@'%';
 ```
 - flush
 ``` sql

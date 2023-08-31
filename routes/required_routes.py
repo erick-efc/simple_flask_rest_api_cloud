@@ -5,12 +5,12 @@ from datetime import datetime
 from flask import jsonify, Blueprint, request, current_app as app
 from utils.functions import connect_now, insert_data_into_table, sort, execute_query
 
-globant_required_routes_bp = Blueprint('globant_required_routes_bp', __name__)
+required_routes_bp = Blueprint('required_routes_bp', __name__)
 
 ################################################
 # UPLOAD PERSISTENT FILES ROUTE
 ################################################
-@globant_required_routes_bp.route('/api/upload_hist', methods=['GET', 'POST'])
+@required_routes_bp.route('/api/upload_hist', methods=['GET', 'POST'])
 def upload_file():
     try:
         if 'file' not in request.files:
@@ -28,7 +28,7 @@ def upload_file():
 ################################################
 # UPDATE HISTORICAL DATA FROM UPDATE_HIST FOLDER
 ################################################
-@globant_required_routes_bp.route('/api/historical_to_db', methods=['GET', 'POST'])
+@required_routes_bp.route('/api/historical_to_db', methods=['GET', 'POST'])
 def historical_data_up():
     try:
         connection = connect_now()
@@ -55,7 +55,7 @@ def historical_data_up():
 ################################################
 # UPDATE DATA FROM BATCH
 ################################################
-@globant_required_routes_bp.route('/api/batch_insert', methods=['GET', 'POST'])
+@required_routes_bp.route('/api/batch_insert', methods=['GET', 'POST'])
 def batch_insert():
     data = request.form.to_dict()
     table_name = data.get('table_name')
@@ -85,7 +85,7 @@ def batch_insert():
 ################################################
 # QUERY 1
 ################################################
-@globant_required_routes_bp.route('/api/sql/employee_count_by_quarter', methods=['GET'])
+@required_routes_bp.route('/api/sql/employee_count_by_quarter', methods=['GET'])
 def employee_count_by_quarter():
     query = """
     SELECT 
@@ -118,7 +118,7 @@ def employee_count_by_quarter():
 ################################################
 # QUERY 2
 ################################################
-@globant_required_routes_bp.route('/api/sql/hired_over_mean_2021', methods=['GET'])
+@required_routes_bp.route('/api/sql/hired_over_mean_2021', methods=['GET'])
 def hired_over_mean_2021():
     query = """
     SELECT 
