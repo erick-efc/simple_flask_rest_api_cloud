@@ -85,7 +85,7 @@ sudo mysql_secure_installation
 - connect to MariaDB using the endpoint in your dashboard, also build the DB using the provided empty sql dump file `db_structure.sql`
 ``` bash
 mysql -h your_endpoint -P 3306 -u root -p
-source /var/www/heml/flask-app/misc/db_structure.sql;
+source /var/www/html/flask-app/misc/db_structure.sql;
 ```
 - still inside MariaDB CLI, create a new user to interact with you api. To interact with this app without need to change config, you can you use:
 ``` sql
