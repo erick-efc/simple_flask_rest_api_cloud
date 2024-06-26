@@ -1,3 +1,5 @@
+# This is just using a virtual machine to run from AWS, still need improvements to take real advantage from cloud processing
+
 # Flask REST API in AWS (future enhancement, flaskenv, security and buckets)
 
 This is a simple Flask-based REST API project that needs to:
